@@ -28,9 +28,9 @@ CREATE TABLE IF NOT EXISTS `actividad_usuario` (
   PRIMARY KEY (`id`),
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `actividad_usuario_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla quimipapel.actividad_usuario: ~8 rows (aproximadamente)
+-- Volcando datos para la tabla quimipapel.actividad_usuario: ~9 rows (aproximadamente)
 INSERT INTO `actividad_usuario` (`id`, `usuario_id`, `accion`, `created_at`) VALUES
 	(1, 1, 'Alta inicial del sistema', '2026-05-19 22:06:33'),
 	(2, 2, 'Creó pedido #1', '2026-05-19 22:06:33'),
@@ -39,7 +39,8 @@ INSERT INTO `actividad_usuario` (`id`, `usuario_id`, `accion`, `created_at`) VAL
 	(5, 5, 'Inició reparto', '2026-05-19 22:06:33'),
 	(6, 6, 'Confirmó entrega', '2026-05-19 22:06:33'),
 	(7, 7, 'Revisó incidencias', '2026-05-19 22:06:33'),
-	(8, 8, 'Generó presupuesto', '2026-05-19 22:06:33');
+	(8, 8, 'Generó presupuesto', '2026-05-19 22:06:33'),
+	(9, 1, 'Inició sesión en la app', '2026-05-20 12:25:42');
 
 -- Volcando estructura para tabla quimipapel.categorias
 CREATE TABLE IF NOT EXISTS `categorias` (
@@ -79,6 +80,8 @@ CREATE TABLE IF NOT EXISTS `clientes` (
   `latitud` decimal(10,7) NOT NULL DEFAULT 0.0000000,
   `longitud` decimal(10,7) NOT NULL DEFAULT 0.0000000,
   `recibe_pedidos` tinyint(1) NOT NULL DEFAULT 1,
+  `facturacion_mensual` tinyint(1) NOT NULL DEFAULT 0,
+  `dia_facturacion` int(11) NOT NULL DEFAULT 1,
   `observaciones` text DEFAULT NULL,
   `activo` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` datetime NOT NULL DEFAULT current_timestamp(),
@@ -90,18 +93,18 @@ CREATE TABLE IF NOT EXISTS `clientes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla quimipapel.clientes: ~10 rows (aproximadamente)
-INSERT INTO `clientes` (`id`, `empresa`, `contacto`, `telefono`, `email`, `direccion`, `ciudad`, `codigo_postal`, `localidad_id`, `zona_id`, `localidad_texto`, `zona_texto`, `latitud`, `longitud`, `recibe_pedidos`, `observaciones`, `activo`, `created_at`) VALUES
-	(1, 'Supermercados Sol', 'Elena Martín', '910000001', 'compras@supermercadossol.es', 'Calle Mayor 12', 'Madrid', '28001', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(2, 'Distribuciones Norte', 'Ángel Pérez', '910000002', 'info@distnorte.es', 'Avenida Europa 45', 'Madrid', '28008', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(3, 'Oficinas Central', 'Mónica López', '910000003', 'pedidos@oficinascentral.es', 'Paseo del Prado 22', 'Madrid', '28014', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(4, 'Papelería Estrella', 'Raúl Sánchez', '910000004', 'pedidos@papeleriaestrella.es', 'Calle Alcalá 88', 'Madrid', '28009', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(5, 'Almacenes Vega', 'Lucía Romero', '910000005', 'compras@almacenesvega.es', 'Calle Toledo 101', 'Madrid', '28005', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 0, '2026-05-19 22:06:32'),
-	(6, 'Residencias Vida', 'Pedro Navarro', '910000006', 'compras@residenciasvida.es', 'Calle Goya 33', 'Madrid', '28002', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(7, 'Hospital del Sur', 'Sara Molina', '910000007', 'logistica@hospitalsur.es', 'Avenida del Sur 77', 'Madrid', '28031', 1, 4, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(8, 'Colegio Nuevo Futuro', 'Diego Herrera', '910000008', 'admin@colegionuevofuturo.es', 'Calle López de Hoyos 150', 'Madrid', '28020', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, '', 1, '2026-05-19 22:06:32'),
-	(9, 'Restauración Iberia', 'Clara Vega', '910000009', 'compras@restib.es', 'Calle Atocha 55', 'Madrid', '28012', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(10, 'Logística Rapid', 'Iván Castro', '910000010', 'pedidos@lograpid.es', 'Calle Leganés 9', 'Madrid', '28914', 1, 5, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, NULL, 1, '2026-05-19 22:06:32'),
-	(11, '', '', '', '', '', 'Madrid', '46600', 1, 3, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, '', 0, '2026-05-20 09:43:56');
+INSERT INTO `clientes` (`id`, `empresa`, `contacto`, `telefono`, `email`, `direccion`, `ciudad`, `codigo_postal`, `localidad_id`, `zona_id`, `localidad_texto`, `zona_texto`, `latitud`, `longitud`, `recibe_pedidos`, `facturacion_mensual`, `dia_facturacion`, `observaciones`, `activo`, `created_at`) VALUES
+	(1, 'Supermercados Sol', 'Elena Martín', '910000001', 'compras@supermercadossol.es', 'Calle Mayor 12', 'Madrid', '28001', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 1, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(2, 'Distribuciones Norte', 'Ángel Pérez', '910000002', 'info@distnorte.es', 'Avenida Europa 45', 'Madrid', '28008', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 1, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(3, 'Oficinas Central', 'Mónica López', '910000003', 'pedidos@oficinascentral.es', 'Paseo del Prado 22', 'Madrid', '28014', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 1, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(4, 'Papelería Estrella', 'Raúl Sánchez', '910000004', 'pedidos@papeleriaestrella.es', 'Calle Alcalá 88', 'Madrid', '28009', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(5, 'Almacenes Vega', 'Lucía Romero', '910000005', 'compras@almacenesvega.es', 'Calle Toledo 101', 'Madrid', '28005', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, NULL, 0, '2026-05-19 22:06:32'),
+	(6, 'Residencias Vida', 'Pedro Navarro', '910000006', 'compras@residenciasvida.es', 'Calle Goya 33', 'Madrid', '28002', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(7, 'Hospital del Sur', 'Sara Molina', '910000007', 'logistica@hospitalsur.es', 'Avenida del Sur 77', 'Madrid', '28031', 1, 4, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(8, 'Colegio Nuevo Futuro', 'Diego Herrera', '910000008', 'admin@colegionuevofuturo.es', 'Calle López de Hoyos 150', 'Madrid', '28020', 1, 2, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, '', 1, '2026-05-19 22:06:32'),
+	(9, 'Restauración Iberia', 'Clara Vega', '910000009', 'compras@restib.es', 'Calle Atocha 55', 'Madrid', '28012', 1, 1, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(10, 'Logística Rapid', 'Iván Castro', '910000010', 'pedidos@lograpid.es', 'Calle Leganés 9', 'Madrid', '28914', 1, 5, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, NULL, 1, '2026-05-19 22:06:32'),
+	(11, '', '', '', '', '', 'Madrid', '46600', 1, 3, 'Madrid', 'Sin zona', 0.0000000, 0.0000000, 1, 0, 1, '', 0, '2026-05-20 09:43:56');
 
 -- Volcando estructura para tabla quimipapel.conductores
 CREATE TABLE IF NOT EXISTS `conductores` (
@@ -162,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `notificaciones_config` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `notificaciones_config_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla quimipapel.notificaciones_config: ~8 rows (aproximadamente)
 INSERT INTO `notificaciones_config` (`id`, `usuario_id`, `nuevos_pedidos`, `pedidos_urgentes`, `incidencias`, `entregas_completadas`, `actualizaciones_sistema`) VALUES
@@ -188,9 +191,9 @@ CREATE TABLE IF NOT EXISTS `pedido_items` (
   KEY `producto_id` (`producto_id`),
   CONSTRAINT `pedido_items_ibfk_1` FOREIGN KEY (`pedido_id`) REFERENCES `pedidos` (`id`) ON DELETE CASCADE,
   CONSTRAINT `pedido_items_ibfk_2` FOREIGN KEY (`producto_id`) REFERENCES `productos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Volcando datos para la tabla quimipapel.pedido_items: ~31 rows (aproximadamente)
+-- Volcando datos para la tabla quimipapel.pedido_items: ~32 rows (aproximadamente)
 INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `precio_unit`, `descuento_porcentaje`) VALUES
 	(1, 1, 1, 10, 4.95, 0.00),
 	(2, 1, 6, 20, 1.85, 0.00),
@@ -222,7 +225,8 @@ INSERT INTO `pedido_items` (`id`, `pedido_id`, `producto_id`, `cantidad`, `preci
 	(28, 10, 2, 25, 9.80, 0.00),
 	(29, 10, 5, 10, 12.90, 0.00),
 	(30, 10, 33, 50, 1.25, 0.00),
-	(31, 11, 37, 1, 2.10, 0.00);
+	(31, 11, 37, 1, 2.10, 0.00),
+	(32, 12, 17, 1, 9.90, 0.00);
 
 -- Volcando estructura para tabla quimipapel.pedidos
 CREATE TABLE IF NOT EXISTS `pedidos` (
@@ -256,7 +260,7 @@ CREATE TABLE IF NOT EXISTS `pedidos` (
   CONSTRAINT `pedidos_ibfk_1` FOREIGN KEY (`cliente_id`) REFERENCES `clientes` (`id`),
   CONSTRAINT `pedidos_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
   CONSTRAINT `pedidos_ibfk_3` FOREIGN KEY (`conductor_id`) REFERENCES `conductores` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Volcando datos para la tabla quimipapel.pedidos: ~10 rows (aproximadamente)
 INSERT INTO `pedidos` (`id`, `cliente_id`, `usuario_id`, `conductor_id`, `fecha`, `estado`, `urgencia`, `reparto`, `notas`, `incidencia_descripcion`, `descuento_pedido_porcentaje`, `espacio_estimado`, `peso_estimado`, `prioridad`, `franja_inicio`, `franja_fin`, `tiempo_entrega_minutos`, `orden_ruta`, `distancia_km`, `tiempo_ruta_minutos`, `estado_ruta`, `estado_actualizado_at`, `total`) VALUES
@@ -270,7 +274,8 @@ INSERT INTO `pedidos` (`id`, `cliente_id`, `usuario_id`, `conductor_id`, `fecha`
 	(8, 8, 8, NULL, '2026-05-08 12:00:00', 'Pendiente', 'Normal', 0, 'Pedido interno de oficina.', NULL, 0.00, 39.00, 0.00, 'Normal', NULL, NULL, 3, NULL, 0.00, 0, 'Pendiente', NULL, 64.35),
 	(9, 9, 1, 1, '2026-05-09 16:10:00', 'Entregado', 'Normal', 1, 'Entregado en recepción.', NULL, 0.00, 21.00, 0.00, 'Normal', NULL, NULL, 3, NULL, 0.00, 0, 'Entregado', '2026-05-09 16:10:00', 205.70),
 	(10, 10, 1, 2, '2026-05-10 10:25:00', 'Entregado', 'Urgente', 1, 'Cliente con urgencia máxima.', NULL, 0.00, 85.00, 0.00, 'Normal', NULL, NULL, 3, NULL, 0.00, 0, 'Entregado', '2026-05-10 10:25:00', 411.20),
-	(11, 2, 1, NULL, '2026-05-20 11:21:46', 'Pendiente', 'Normal', 1, '', NULL, 0.00, 1.00, 1.00, 'Normal', NULL, NULL, 3, NULL, 0.00, 0, 'Pendiente', NULL, 2.10);
+	(11, 2, 1, NULL, '2026-05-20 11:21:46', 'Pendiente', 'Normal', 1, '', NULL, 0.00, 1.00, 1.00, 'Normal', NULL, NULL, 3, NULL, 0.00, 0, 'Pendiente', NULL, 2.10),
+	(12, 8, 4, NULL, '2026-05-20 12:03:07', 'Pendiente', 'Normal', 1, 'Pedido Sospe', NULL, 0.00, 1.00, 1.00, 'Normal', NULL, NULL, 3, NULL, 0.00, 0, 'Pendiente', NULL, 9.90);
 
 -- Volcando estructura para tabla quimipapel.productos
 CREATE TABLE IF NOT EXISTS `productos` (
@@ -312,7 +317,7 @@ INSERT INTO `productos` (`id`, `nombre`, `sku`, `categoria_id`, `proveedor_id`, 
 	(14, 'Ambientador spray 400ml', 'AMB-SPR-400', 4, 3, 'file:///C:/Users/carlo/.quimipapel/product_images/AMB-SPR-400_1779263257570.png', 1.00, 3.20, 140, 20, 0, '2026-05-19 22:06:33'),
 	(15, 'Guantes nitrilo talla M', 'GUA-NIT-M', 5, 4, NULL, 1.00, 6.80, 300, 50, 1, '2026-05-19 22:06:33'),
 	(16, 'Guantes nitrilo talla L', 'GUA-NIT-L', 5, 4, NULL, 1.00, 6.80, 280, 50, 1, '2026-05-19 22:06:33'),
-	(17, 'Bolígrafo azul caja 50', 'BOL-AZ-50', 5, 4, NULL, 1.00, 9.90, 200, 40, 1, '2026-05-19 22:06:33'),
+	(17, 'Bolígrafo azul caja 50', 'BOL-AZ-50', 5, 4, NULL, 1.00, 9.90, 199, 40, 1, '2026-05-19 22:06:33'),
 	(18, 'Bolígrafo negro caja 50', 'BOL-NE-50', 5, 4, NULL, 1.00, 9.90, 190, 40, 1, '2026-05-19 22:06:33'),
 	(19, 'Cuaderno A4 rayado', 'CUE-A4-RAY', 5, 4, NULL, 1.00, 1.95, 500, 80, 1, '2026-05-19 22:06:33'),
 	(20, 'Cuaderno A5 espiral', 'CUE-A5-ESP', 5, 4, NULL, 1.00, 2.40, 420, 80, 1, '2026-05-19 22:06:33'),
@@ -386,14 +391,14 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
 
 -- Volcando datos para la tabla quimipapel.usuarios: ~8 rows (aproximadamente)
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `telefono`, `password_hash`, `rol`, `activo`, `ultimo_acceso`, `foto_perfil_path`, `descuento_porcentaje`, `zona_id`, `zona_permitida_texto`, `capacidad_furgoneta`, `max_paquetes`, `ubicacion_inicio`, `inicio_latitud`, `inicio_longitud`, `hora_inicio_jornada`, `hora_fin_jornada`, `created_at`) VALUES
-	(1, 'Admin General', 'carlos', '600100101', '1234', 'Administrador', 1, '2026-05-20 11:15:14', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
+	(1, 'Admin General', 'carlos', '600100101', '1234', 'Administrador', 1, '2026-05-20 12:25:42', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 0.0000000, 0.0000000, NULL, NULL, '2026-05-19 22:06:32'),
 	(2, 'Laura Gómez', 'laura.gomez@quimipapel.com', '600100102', 'password', 'Oficina', 1, '2026-05-19 22:06:32', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
-	(3, 'Carlos Ruiz', 'carlos.ruiz@quimipapel.com', '600100103', 'password', 'Comercial', 1, '2026-05-20 09:54:27', NULL, 5.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
-	(4, 'Marta León', 'marta.leon@quimipapel.com', '600100104', 'password', 'Oficina', 1, '2026-05-20 09:55:55', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
+	(3, 'Carlos Ruiz', 'carlos.ruiz@quimipapel.com', '600100103', 'password', 'Comercial', 1, '2026-05-20 09:54:27', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
+	(4, 'Marta León', 'marta.leon@quimipapel.com', '600100104', 'password', 'Oficina', 1, '2026-05-20 11:52:47', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
 	(5, 'Javier Torres', 'javier.torres@quimipapel.com', '600100105', 'password', 'Repartidor', 1, '2026-05-20 09:59:34', NULL, 0.00, 1, 'Madrid Centro', 120.00, 40, 'Almacén central QUIMIPAPEL', 40.4167750, -3.7037900, '08:00:00', '16:00:00', '2026-05-19 22:06:32'),
-	(6, 'Sergio Vidal', 'sergio.vidal@quimipapel.com', '600100106', 'password', 'Repartidor', 1, '2026-05-19 22:06:32', NULL, 0.00, 2, 'Madrid Centro', 100.00, 40, 'Almacén central QUIMIPAPEL', 40.4167750, -3.7037900, '08:00:00', '16:00:00', '2026-05-19 22:06:32'),
+	(6, 'Sergio Vidal', 'sergio.vidal@quimipapel.com', '600100106', 'password', 'Repartidor', 1, '2026-05-20 11:51:08', NULL, 0.00, 2, 'Madrid Centro', 100.00, 40, 'Almacén central QUIMIPAPEL', 40.4167750, -3.7037900, '08:00:00', '16:00:00', '2026-05-19 22:06:32'),
 	(7, 'Ana Prieto', 'ana.prieto@quimipapel.com', '600100107', 'password', 'Oficina', 1, '2026-05-19 22:06:32', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32'),
-	(8, 'Rubén Gil', 'ruben.gil@quimipapel.com', '600100108', 'password', 'Comercial', 1, '2026-05-19 22:06:32', NULL, 5.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32');
+	(8, 'Rubén Gil', 'ruben.gil@quimipapel.com', '600100108', 'password', 'Comercial', 1, '2026-05-19 22:06:32', NULL, 0.00, NULL, NULL, 100.00, 40, NULL, 40.4167750, -3.7037900, NULL, NULL, '2026-05-19 22:06:32');
 
 -- Volcando estructura para tabla quimipapel.zonas
 CREATE TABLE IF NOT EXISTS `zonas` (
